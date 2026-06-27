@@ -1,1 +1,1 @@
-{"reportName":"QA Automation Report","testRuns":[],"statistic":{"failed":1,"broken":0,"skipped":36,"passed":18,"unknown":0,"total":55},"time":{"start":1782583425244,"stop":1782583430757,"duration":5513,"minDuration":0,"maxDuration":1384,"sumDuration":9852}}
+{"reportName":"QA Automation Report","testRuns":[],"statistic":{"failed":0,"broken":0,"skipped":0,"passed":57,"unknown":0,"total":57},"time":{"start":1782583750272,"stop":1782583795120,"duration":44848,"minDuration":17,"maxDuration":12296,"sumDuration":58599}}
