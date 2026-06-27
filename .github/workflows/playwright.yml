@@ -145,9 +145,9 @@ jobs:
         run: |
           cat > allure-results/executor.json <<EOF
           {
-            "name": "GitHub Actions",
+            "name": "GitHub Actions (Lewis Babe Yaka)",
             "type": "github",
-            "reportName": "Lewis Babe Yaka - QA Automation Report",
+            "reportName": "QA Automation Report",
             "buildName": "CI #${{ github.run_number }}",
             "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
             "url": "${{ github.server_url }}/${{ github.repository }}/actions"

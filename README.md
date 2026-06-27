@@ -7,6 +7,8 @@
 
 📊 **[View the live Allure report →](https://lebrodus.github.io/playwright-typescript-framework/)** (published from CI on every push to `main`)
 
+[![Allure report overview](docs/allure-report.png)](https://lebrodus.github.io/playwright-typescript-framework/)
+
 A production-style end-to-end, API and web test automation framework built with **Playwright** and **TypeScript**. It demonstrates the patterns I use day to day as an SDET: the **Page Object Model**, **custom fixtures**, strongly typed test data, cross-browser execution, and a **CI pipeline** on GitHub Actions.
 
 > All suites run against stable public targets (Playwright TodoMVC, the Playwright docs site, and JSONPlaceholder), so the project is clone-and-run with no secrets or setup.
