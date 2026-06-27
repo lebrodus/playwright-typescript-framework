@@ -1,0 +1,67 @@
+import { defineConfig, devices } from '@playwright/test';
+
+/**
+ * Central Playwright configuration.
+ * - E2E / web suites run against the public Playwright TodoMVC + docs site.
+ * - API suite uses a dedicated request baseURL (see tests/api).
+ * Docs: https://playwright.dev/docs/test-configuration
+ */
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 2 : undefined,
+  timeout: 30_000,
+  expect: {
+    timeout: 5_000,
+    toHaveScreenshot: { maxDiffPixelRatio: 0.02, animations: 'disabled' },
+  },
+
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+    ['allure-playwright', { resultsDir: 'allure-results', detail: true }],
+  ],
+
+  use: {
+    baseURL: process.env.BASE_URL ?? 'https://demo.playwright.dev',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    actionTimeout: 10_000,
+  },
+
+  projects: [
+    // Functional projects (run in CI). Visual specs are excluded so that
+    // OS-specific snapshots never break the cross-platform pipeline.
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+      testIgnore: /visual\//,
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+      testIgnore: /visual\//,
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+      testIgnore: /visual\//,
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 7'] },
+      testIgnore: /(api|visual)\//,
+    },
+
+    // Visual regression project (run locally: `npm run test:visual`).
+    {
+      name: 'visual',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: /visual\//,
+    },
+  ],
+});
