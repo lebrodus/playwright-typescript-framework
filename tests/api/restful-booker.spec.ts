@@ -107,4 +107,14 @@ test.describe.serial('Restful Booker REST API', { tag: '@regression' }, () => {
     });
     expect(res.status()).toBe(404);
   });
+
+  // Documented backlog: tracked as a skipped test so the planned coverage is
+  // visible in the report (Categories -> Ignored / skipped).
+  test('PATCH /booking applies a partial update', async () => {
+    // eslint-disable-next-line playwright/no-skipped-test -- intentional documented backlog
+    test.skip(
+      true,
+      'Pending: partial-update (PATCH) coverage planned for next iteration',
+    );
+  });
 });

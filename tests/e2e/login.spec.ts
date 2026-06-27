@@ -40,4 +40,14 @@ test.describe('SauceDemo login', { tag: '@regression' }, () => {
       await login.expectError(scenario.error);
     });
   }
+
+  // Documented backlog: tracked as a skipped test so coverage gaps are visible
+  // in the report (Categories -> Ignored / skipped) rather than forgotten.
+  test('locks the account after repeated failed logins', async () => {
+    // eslint-disable-next-line playwright/no-skipped-test -- intentional documented backlog
+    test.skip(
+      true,
+      'Pending: brute-force lockout scenario planned for a future iteration',
+    );
+  });
 });
