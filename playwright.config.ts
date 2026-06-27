@@ -1,9 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const SAUCEDEMO_URL = 'https://www.saucedemo.com';
+
 /**
  * Central Playwright configuration.
- * - E2E / web suites run against the public Playwright TodoMVC + docs site.
- * - API suite uses a dedicated request baseURL (see tests/api).
+ * - E2E (SauceDemo) auth is set up once per browser and reused via storageState.
+ * - API / GraphQL suites call their services directly (no browser).
  * Docs: https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
@@ -58,14 +60,22 @@ export default defineConfig({
 
   projects: [
     // Auth setup: logs in once and saves the session (storageState).
-    // Authenticated specs (checkout) reuse it instead of logging in per test.
+    // One setup per browser so each matrix job only needs its own browser
+    // installed (CI installs a single browser per job).
     {
-      name: 'setup',
+      name: 'setup-chromium',
       testMatch: /.*\.setup\.ts/,
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: 'https://www.saucedemo.com',
-      },
+      use: { ...devices['Desktop Chrome'], baseURL: SAUCEDEMO_URL },
+    },
+    {
+      name: 'setup-firefox',
+      testMatch: /.*\.setup\.ts/,
+      use: { ...devices['Desktop Firefox'], baseURL: SAUCEDEMO_URL },
+    },
+    {
+      name: 'setup-webkit',
+      testMatch: /.*\.setup\.ts/,
+      use: { ...devices['Desktop Safari'], baseURL: SAUCEDEMO_URL },
     },
 
     // Functional projects (run in CI). Visual + setup specs are excluded;
@@ -73,25 +83,25 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-chromium'],
       testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-firefox'],
       testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-webkit'],
       testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'mobile-chrome',
       use: { ...devices['Pixel 7'] },
-      dependencies: ['setup'],
+      dependencies: ['setup-chromium'],
       testIgnore: [/(api|visual)\//, /.*\.setup\.ts/],
     },
 
