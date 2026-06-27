@@ -57,27 +57,42 @@ export default defineConfig({
   },
 
   projects: [
-    // Functional projects (run in CI). Visual specs are excluded so that
-    // OS-specific snapshots never break the cross-platform pipeline.
+    // Auth setup: logs in once and saves the session (storageState).
+    // Authenticated specs (checkout) reuse it instead of logging in per test.
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://www.saucedemo.com',
+      },
+    },
+
+    // Functional projects (run in CI). Visual + setup specs are excluded;
+    // visual snapshots are OS-specific and would break a cross-platform matrix.
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: /visual\//,
+      dependencies: ['setup'],
+      testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      testIgnore: /visual\//,
+      dependencies: ['setup'],
+      testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: /visual\//,
+      dependencies: ['setup'],
+      testIgnore: [/visual\//, /.*\.setup\.ts/],
     },
     {
       name: 'mobile-chrome',
       use: { ...devices['Pixel 7'] },
-      testIgnore: /(api|visual)\//,
+      dependencies: ['setup'],
+      testIgnore: [/(api|visual)\//, /.*\.setup\.ts/],
     },
 
     // Visual regression project (run locally: `npm run test:visual`).

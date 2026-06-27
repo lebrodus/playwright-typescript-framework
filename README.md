@@ -11,13 +11,16 @@
 
 A production-style end-to-end, API and web test automation framework built with **Playwright** and **TypeScript**. It demonstrates the patterns I use day to day as an SDET: the **Page Object Model**, **custom fixtures**, strongly typed test data, cross-browser execution, and a **CI pipeline** on GitHub Actions.
 
-> All suites run against stable public targets (Playwright TodoMVC, the Playwright docs site, and JSONPlaceholder), so the project is clone-and-run with no secrets or setup.
+> Suites run against stable public targets - **SauceDemo** (login + checkout), **Restful Booker** (token-auth REST CRUD), the **Countries GraphQL** API, the Playwright docs site, and **TodoMVC** (accessibility + visual). Clone-and-run, no secrets.
 
 ## Highlights
 
 - **Page Object Model** with a shared `BasePage` and typed, intention-revealing methods.
 - **Custom fixtures** that inject ready-to-use page objects, keeping specs declarative.
-- **Five layers of coverage**: UI end-to-end, web-UI smoke, REST API (no browser), **accessibility** (axe-core), and **visual regression**.
+- **Coverage across layers**: UI end-to-end (login + checkout), REST API, GraphQL API, **accessibility** (axe-core), and **visual regression**.
+- **Authentication via `storageState`**: a setup project logs in once and the authenticated checkout suite reuses the session - no per-test login.
+- **Real API testing**: token auth + full CRUD lifecycle (create → read → update → delete → verify) against Restful Booker, plus a GraphQL suite.
+- **Data-driven tests**: negative login scenarios generated from a single data source.
 - **Accessibility testing** with `@axe-core/playwright` against WCAG 2.0/2.1 A & AA, via a shared `makeAxeBuilder` fixture.
 - **Visual regression** with Playwright's native snapshot comparison (element-level baselines, tolerance + disabled animations).
 - **Test tagging** (`@smoke` / `@regression`) for fast, selective runs locally and in CI.
@@ -30,22 +33,22 @@ A production-style end-to-end, API and web test automation framework built with 
 
 ## Tech Stack
 
-`Playwright` · `TypeScript` · `Node.js` · `GitHub Actions` · `REST API testing` · `Accessibility (axe-core)` · `Visual Regression` · `Allure` · `ESLint` · `Prettier` · `Page Object Model`
+`Playwright` · `TypeScript` · `Node.js` · `GitHub Actions` · `REST API` · `GraphQL` · `Auth / storageState` · `Data-driven` · `Accessibility (axe-core)` · `Visual Regression` · `Allure` · `ESLint` · `Prettier` · `Page Object Model`
 
 ## Project Structure
 
 ```
 playwright-typescript-framework/
 ├─ src/
-│  ├─ pages/         # Page Objects (BasePage, TodoPage)
+│  ├─ pages/         # Page Objects (BasePage, saucedemo/*, TodoPage)
 │  ├─ fixtures/      # Custom Playwright fixtures
-│  └─ data/          # Reusable, typed test data
+│  └─ data/          # Reusable, typed test data (users, products, todos)
 ├─ tests/
-│  ├─ e2e/           # End-to-end UI flows (TodoMVC)
+│  ├─ e2e/           # auth.setup + SauceDemo login (data-driven) & checkout
 │  ├─ web/           # Web-UI smoke tests (playwright.dev)
-│  ├─ api/           # REST API tests (JSONPlaceholder)
-│  ├─ a11y/          # Accessibility tests (axe-core)
-│  └─ visual/        # Visual regression (snapshot baselines)
+│  ├─ api/           # REST (Restful Booker) + GraphQL (Countries)
+│  ├─ a11y/          # Accessibility tests (axe-core, TodoMVC)
+│  └─ visual/        # Visual regression (TodoMVC snapshot baselines)
 ├─ .github/
 │  ├─ workflows/playwright.yml   # quality gate + matrix + Allure publish
 │  └─ dependabot.yml
@@ -121,7 +124,9 @@ npm run allure:serve     # builds and opens the Allure report
 - **Locators** prefer user-facing roles and test IDs (`getByRole`, `getByTestId`) over brittle CSS/XPath.
 - **Assertions** use Playwright's web-first `expect`, which auto-retries and removes flaky sleeps.
 - **Data and pages are separated from specs** so tests read as behaviour, not setup.
-- **API tests** validate status codes, response shape (contract) and a negative path.
+- **Authentication is set up once** (`auth.setup.ts`) and reused via `storageState`, keeping the checkout suite fast and login-free.
+- **API tests** cover a full auth + CRUD lifecycle with cleanup, plus contract checks and negative paths (REST and GraphQL).
+- **Data-driven** negative login cases come from one typed source (`LOGIN_SCENARIOS`).
 - **Tags** (`@smoke`, `@regression`) drive selective execution - e.g. `npm run test:smoke` for a fast pre-merge check.
 
 ## Author
