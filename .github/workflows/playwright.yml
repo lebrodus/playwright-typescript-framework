@@ -20,6 +20,15 @@ on:
         default: chromium
         options: [chromium, firefox, webkit]
 
+# Least-privilege default token; only the publish job elevates to write.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # ── Static quality gate: type-check, lint, format check ───────────────────
   quality:

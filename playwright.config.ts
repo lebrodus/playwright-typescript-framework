@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
 
 const SAUCEDEMO_URL = 'https://www.saucedemo.com';
 

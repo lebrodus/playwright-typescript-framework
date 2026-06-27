@@ -129,6 +129,13 @@ npm run allure:serve     # builds and opens the Allure report
 - **Data-driven** negative login cases come from one typed source (`LOGIN_SCENARIOS`).
 - **Tags** (`@smoke`, `@regression`) drive selective execution - e.g. `npm run test:smoke` for a fast pre-merge check.
 
+## Security
+
+- **No secrets in the repo** - only public, documented demo credentials; the saved session (`.auth/`) and any `.env` are gitignored.
+- **Env-based credentials** - creds are read from the environment (`.env.example`) with a public-demo fallback, modelling real secret handling.
+- **Least-privilege CI** - the workflow runs with `permissions: contents: read`; only the report-publish job elevates to `write`. No personal tokens (uses `GITHUB_TOKEN`).
+- **Dependency hygiene** - Dependabot opens weekly update PRs; GitHub secret scanning + push protection guard against accidental leaks.
+
 ## Author
 
 **Lewis Babe Yaka** - QA Tech Lead & SDET

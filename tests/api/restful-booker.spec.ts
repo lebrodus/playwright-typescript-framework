@@ -12,6 +12,10 @@ import * as allure from 'allure-js-commons';
 const BASE = 'https://restful-booker.herokuapp.com';
 const JSON_HEADERS = { Accept: 'application/json' };
 
+// Credentials from env when set, else the service's public demo defaults.
+const BOOKER_USER = process.env.BOOKER_USERNAME ?? 'admin';
+const BOOKER_PASS = process.env.BOOKER_PASSWORD ?? 'password123';
+
 test.describe.serial('Restful Booker REST API', { tag: '@regression' }, () => {
   let token = '';
   let bookingId = 0;
@@ -25,7 +29,7 @@ test.describe.serial('Restful Booker REST API', { tag: '@regression' }, () => {
 
   test('POST /auth returns a token', { tag: '@smoke' }, async ({ request }) => {
     const res = await request.post(`${BASE}/auth`, {
-      data: { username: 'admin', password: 'password123' },
+      data: { username: BOOKER_USER, password: BOOKER_PASS },
     });
     expect(res.status()).toBe(200);
     token = (await res.json()).token;

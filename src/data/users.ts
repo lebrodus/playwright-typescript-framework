@@ -1,8 +1,12 @@
-/** SauceDemo credentials (public, documented on the login page). */
+/**
+ * SauceDemo credentials. Read from the environment when provided (see
+ * `.env.example`), falling back to the public, documented demo credentials -
+ * so the project stays clone-and-run while modelling real secret handling.
+ */
 export const VALID_USER = {
-  username: 'standard_user',
-  password: 'secret_sauce',
-} as const;
+  username: process.env.SAUCE_USERNAME ?? 'standard_user',
+  password: process.env.SAUCE_PASSWORD ?? 'secret_sauce',
+};
 
 /** Negative login scenarios, used to drive parametrized tests. */
 export const LOGIN_SCENARIOS = [

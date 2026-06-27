@@ -50,6 +50,7 @@
     "allure-commandline": "^2.32.0",
     "allure-js-commons": "^3.0.0",
     "allure-playwright": "^3.0.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-playwright": "^2.1.0",
