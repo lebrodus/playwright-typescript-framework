@@ -22,7 +22,30 @@ export default defineConfig({
     ['list'],
     ['html', { open: 'never' }],
     ['json', { outputFile: 'test-results/results.json' }],
-    ['allure-playwright', { resultsDir: 'allure-results', detail: true }],
+    [
+      'allure-playwright',
+      {
+        resultsDir: 'allure-results',
+        detail: true,
+        environmentInfo: {
+          Project: 'Playwright TypeScript Framework',
+          Framework: 'Playwright + TypeScript',
+          Owner: 'Lewis Babe Yaka',
+          Node: process.version,
+          OS: `${process.platform} ${process.arch}`,
+        },
+        categories: [
+          { name: 'Ignored / skipped', matchedStatuses: ['skipped'] },
+          { name: 'Product defects', matchedStatuses: ['failed'] },
+          { name: 'Test defects (broken)', matchedStatuses: ['broken'] },
+          {
+            name: 'Outdated visual baseline',
+            matchedStatuses: ['failed'],
+            messageRegex: '.*[Ss]creenshot comparison failed.*',
+          },
+        ],
+      },
+    ],
   ],
 
   use: {

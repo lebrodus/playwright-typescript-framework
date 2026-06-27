@@ -1,4 +1,5 @@
 import { test, expect } from '../../src/fixtures/fixtures.js';
+import * as allure from 'allure-js-commons';
 import { TODOS } from '../../src/data/todos.js';
 
 /**
@@ -12,6 +13,13 @@ import { TODOS } from '../../src/data/todos.js';
  * Element-level screenshots are used (not full page) to stay stable across
  * viewport/scrollbar differences, and animations are disabled via config.
  */
+test.beforeEach(async () => {
+  await allure.parentSuite('Visual Regression');
+  await allure.epic('Quality Engineering');
+  await allure.feature('TodoMVC snapshots');
+  await allure.owner('Lewis Babe Yaka');
+});
+
 test.describe('TodoMVC - visual regression', () => {
   test('empty app matches baseline', async ({ page }) => {
     await page.goto('/todomvc');

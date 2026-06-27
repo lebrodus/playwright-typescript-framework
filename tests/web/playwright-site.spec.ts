@@ -1,9 +1,17 @@
 import { test, expect } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 
 /**
  * Lightweight web-UI checks against the public Playwright docs site.
  * Shows navigation, role-based locators and search interaction.
  */
+test.beforeEach(async () => {
+  await allure.parentSuite('Web UI');
+  await allure.epic('Quality Engineering');
+  await allure.feature('playwright.dev');
+  await allure.owner('Lewis Babe Yaka');
+});
+
 test.describe('playwright.dev', () => {
   test.use({ baseURL: 'https://playwright.dev' });
 

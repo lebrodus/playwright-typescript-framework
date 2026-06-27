@@ -1,3 +1,4 @@
+import * as allure from 'allure-js-commons';
 import { test } from '../../src/fixtures/fixtures.js';
 import { TODOS } from '../../src/data/todos.js';
 
@@ -7,6 +8,13 @@ import { TODOS } from '../../src/data/todos.js';
  *
  * Tags allow selective runs: `npm run test:smoke` / `npm run test:regression`.
  */
+test.beforeEach(async () => {
+  await allure.parentSuite('End-to-End (UI)');
+  await allure.epic('Quality Engineering');
+  await allure.feature('TodoMVC');
+  await allure.owner('Lewis Babe Yaka');
+});
+
 test.describe('TodoMVC - core flows', { tag: '@regression' }, () => {
   test(
     'adds multiple todos and shows them in order',

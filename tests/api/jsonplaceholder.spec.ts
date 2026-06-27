@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import * as allure from 'allure-js-commons';
 
 /**
  * REST API tests against the public JSONPlaceholder service.
@@ -6,6 +7,13 @@ import { test, expect } from '@playwright/test';
  * plus a negative case - all without a browser.
  */
 const API = 'https://jsonplaceholder.typicode.com';
+
+test.beforeEach(async () => {
+  await allure.parentSuite('API');
+  await allure.epic('Quality Engineering');
+  await allure.feature('JSONPlaceholder REST');
+  await allure.owner('Lewis Babe Yaka');
+});
 
 test.describe('JSONPlaceholder REST API', { tag: '@regression' }, () => {
   test(
