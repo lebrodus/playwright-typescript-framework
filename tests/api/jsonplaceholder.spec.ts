@@ -7,19 +7,23 @@ import { test, expect } from '@playwright/test';
  */
 const API = 'https://jsonplaceholder.typicode.com';
 
-test.describe('JSONPlaceholder REST API', () => {
-  test('GET /posts/1 returns a well-formed post', async ({ request }) => {
-    const res = await request.get(`${API}/posts/1`);
-    expect(res.status()).toBe(200);
+test.describe('JSONPlaceholder REST API', { tag: '@regression' }, () => {
+  test(
+    'GET /posts/1 returns a well-formed post',
+    { tag: '@smoke' },
+    async ({ request }) => {
+      const res = await request.get(`${API}/posts/1`);
+      expect(res.status()).toBe(200);
 
-    const post = await res.json();
-    expect(post).toMatchObject({
-      id: 1,
-      userId: expect.any(Number),
-      title: expect.any(String),
-      body: expect.any(String),
-    });
-  });
+      const post = await res.json();
+      expect(post).toMatchObject({
+        id: 1,
+        userId: expect.any(Number),
+        title: expect.any(String),
+        body: expect.any(String),
+      });
+    },
+  );
 
   test('GET /posts returns a non-empty collection', async ({ request }) => {
     const res = await request.get(`${API}/posts`);

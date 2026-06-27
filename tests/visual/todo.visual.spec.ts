@@ -21,6 +21,8 @@ test.describe('TodoMVC - visual regression', () => {
   test('populated list matches baseline', async ({ todoPage, page }) => {
     await todoPage.addTodos(TODOS);
     await todoPage.toggleByTitle(TODOS[0]);
-    await expect(page.locator('.todoapp')).toHaveScreenshot('todo-populated.png');
+    await expect(page.locator('.todoapp')).toHaveScreenshot(
+      'todo-populated.png',
+    );
   });
 });

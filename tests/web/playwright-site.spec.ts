@@ -10,9 +10,7 @@ test.describe('playwright.dev', () => {
   test('home page loads with hero call-to-action', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Playwright/);
-    await expect(
-      page.getByRole('link', { name: 'Get started' }),
-    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Get started' })).toBeVisible();
   });
 
   test('navigates to the Docs intro page', async ({ page }) => {

@@ -52,7 +52,9 @@ export class TodoPage extends BasePage {
   }
 
   async expectRemaining(n: number): Promise<void> {
-    await expect(this.counter).toHaveText(`${n} item${n === 1 ? '' : 's'} left`);
+    await expect(this.counter).toHaveText(
+      `${n} item${n === 1 ? '' : 's'} left`,
+    );
   }
 
   async expectCompleted(title: string): Promise<void> {

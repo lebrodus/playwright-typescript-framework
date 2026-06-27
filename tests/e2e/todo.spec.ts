@@ -4,20 +4,30 @@ import { TODOS } from '../../src/data/todos.js';
 /**
  * End-to-end coverage of the TodoMVC flow using the Page Object Model
  * and a custom `todoPage` fixture (app is already loaded before each test).
+ *
+ * Tags allow selective runs: `npm run test:smoke` / `npm run test:regression`.
  */
-test.describe('TodoMVC - core flows', () => {
-  test('adds multiple todos and shows them in order', async ({ todoPage }) => {
-    await todoPage.addTodos(TODOS);
-    await todoPage.expectVisibleTodos(TODOS);
-    await todoPage.expectCount(TODOS.length);
-  });
+test.describe('TodoMVC - core flows', { tag: '@regression' }, () => {
+  test(
+    'adds multiple todos and shows them in order',
+    { tag: '@smoke' },
+    async ({ todoPage }) => {
+      await todoPage.addTodos(TODOS);
+      await todoPage.expectVisibleTodos(TODOS);
+      await todoPage.expectCount(TODOS.length);
+    },
+  );
 
-  test('tracks the remaining counter', async ({ todoPage }) => {
-    await todoPage.addTodos(TODOS);
-    await todoPage.expectRemaining(3);
-    await todoPage.toggleByTitle(TODOS[0]);
-    await todoPage.expectRemaining(2);
-  });
+  test(
+    'tracks the remaining counter',
+    { tag: '@smoke' },
+    async ({ todoPage }) => {
+      await todoPage.addTodos(TODOS);
+      await todoPage.expectRemaining(3);
+      await todoPage.toggleByTitle(TODOS[0]);
+      await todoPage.expectRemaining(2);
+    },
+  );
 
   test('marks a todo as completed', async ({ todoPage }) => {
     await todoPage.addTodos(TODOS);
@@ -43,7 +53,7 @@ test.describe('TodoMVC - core flows', () => {
   });
 });
 
-test.describe('TodoMVC - input validation', () => {
+test.describe('TodoMVC - input validation', { tag: '@regression' }, () => {
   test('trims whitespace-only entries', async ({ todoPage }) => {
     await todoPage.addTodo('   ');
     await todoPage.expectCount(0);
