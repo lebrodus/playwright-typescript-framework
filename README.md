@@ -1,8 +1,11 @@
 # Playwright + TypeScript Test Automation Framework
 
 [![Playwright Tests](https://github.com/lebrodus/playwright-typescript-framework/actions/workflows/playwright.yml/badge.svg)](https://github.com/lebrodus/playwright-typescript-framework/actions/workflows/playwright.yml)
+[![Allure Report](https://img.shields.io/badge/Allure-Live%20Report-FF4081?logo=qameta&logoColor=white)](https://lebrodus.github.io/playwright-typescript-framework/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Playwright](https://img.shields.io/badge/Playwright-1.49-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
+
+📊 **[View the live Allure report →](https://lebrodus.github.io/playwright-typescript-framework/)** (published from CI on every push to `main`)
 
 A production-style end-to-end, API and web test automation framework built with **Playwright** and **TypeScript**. It demonstrates the patterns I use day to day as an SDET: the **Page Object Model**, **custom fixtures**, strongly typed test data, cross-browser execution, and a **CI pipeline** on GitHub Actions.
 
@@ -78,7 +81,8 @@ Every run produces three reports:
 
 - **Playwright HTML** - `npm run report`
 - **JSON** - `test-results/results.json` (for custom dashboards / CI parsing)
-- **Allure** - rich report with steps, attachments and trends:
+- **Allure (live)** - published to GitHub Pages by CI on every push to `main`, with trend history across runs: **https://lebrodus.github.io/playwright-typescript-framework/**
+- **Allure (local)** - rich report with steps, attachments and trends:
 
 ```bash
 npm test                 # produces allure-results/
